@@ -1,0 +1,11 @@
+Volunteer Forces#
+Volunteer Forces are specialized units: Their only purpose is to
+defend towns. Whenever a new town is founded 1500 inhabitants are recruited, 
+trained and banded.
+However, these unit have several limitations:
+They can only execute the commands CC, MO, DM, SE, CN, WA, RP and DU 
+ergo, they cannot move. Each town can control one unit of Volunteers 
+only. It is possible to levy a new one if  the "old" unit has been vanquished. 
+Volunteer Forces have no upkeep costs and are always dug in.
+
+

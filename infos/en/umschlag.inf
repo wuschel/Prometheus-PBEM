@@ -1,0 +1,7 @@
+Port of Transshipment#
+A Port of Transshipment is a special port which is not built in a town but
+somewhere in the landscape. Thanks to such a port, a ship may enter a square located
+on the continent to load and unload commodities (Port of Transshipments do store 
+ALL sorts of commodities) , or to pass a bothersome isthmus. Note hereby that it is 
+impossible to move a ship from any kind of port into another.
+

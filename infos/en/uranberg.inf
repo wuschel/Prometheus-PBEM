@@ -1,0 +1,9 @@
+Uranium Mine#
+A mine which does not haul ore but nuclear fuel elements.
+Basically the same as an ordinary mine with a little difference:
+When built, automatic delivery will be OFF! Cause uranium is 
+a No-No for children and would-be Emperors, it will be kept in your 
+mine until you specify otherwise. (Command DO)
+Just remember to build an Uranium Depot in your town, (best BEFORE
+delivery) or all your nuclear hot stuff will be wasted.
+

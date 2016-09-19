@@ -1,0 +1,10 @@
+Rocket Launcher#
+A structure which cannot be built in a town. Or do you want to have such a
+Launcher next to your sweet home with all that missiles being launched in front of 
+your living room? Anyway, move a nuclear missile to a Launcher, load the Launcher
+by using the command "DI". Your missile will mysteriously disappear and won´t
+require upkeep anymore. By giving the command "FI" (to the Launcher) your
+lethal missile will be...errr..launched. Throw in the coordinates (e.g FI17,-34)
+for an accurate devastation. Note that you can´t remove a loaded missile and
+that a Launcher can only store one missile. Don´t even think about it.
+

@@ -1,0 +1,231 @@
+Hello,
+
+this is the play by (e)mail game Prometheus. Everything except the
+graphics has been made by Mathias Kettner (prometheus@mathias-kettner.de)
+
+Graphics have been made by Michael Dragovic.
+
+
+The good things about Prometheus are:
+
+- It's a really interesing strategical game for 8 to 20 players
+
+- It can be played via mail or email, it creates printouts
+  in PostScript and/or HTML
+
+- It creates high-quality printouts
+
+- It is finished and complete!
+
+- It has run in a commercial environment for several years,
+  hundreds of players have played it for money, so it has very few bugs!
+
+- It has a complete and very nice players' manual
+
+- You can play in English or German. The game if fully translated.
+
+- It runs on GNU/Linux. It's written in C++.
+
+- It's totally free and open source
+
+- It's fully automizable
+
+
+The bad things about Prometheus are:
+
+- The source code is written in German language.
+
+- The build system is quite ugly
+
+- It's tested only on SuSE Linux. But this should 
+  be no great problem, since it once run even under DOS and
+  Windows and it only need ncurses and libstdc++, no other
+  libs, no graphical stuff.
+
+- There is no developers documentation
+
+- There is only few game administration documentation
+
+- I have no time to develop the game further.
+
+
+So maybe there are some things where you can come into play...
+
+To make life a little bit easier for you, here are is a small
+guide for getting started to run the game:
+
+----------------------------------------------------------------------
+
+How to compile prometheus:
+
+Do a 'make' and a 'make install'. Sorry for not having an autoconf
+build system.
+
+You also can create an RPM by issuing:
+
+make rpm
+
+This is the preferred way. You do not need to be root for making the rpm.
+You can install the rpm with 
+
+rpm -hUv prometheus-1.2.1-3.i586.rpm
+
+For this you *must* be root, of course.
+
+----------------------------------------------------------------------
+
+Creating a game
+
+For creating a new game you have first to choose a name, for example
+'game1'. Then you create a world with:
+
+prometheus-en game1.session -w game1 50 30
+
+That world will be 50 squares around the equator and 30 squares
+from north to south.
+
+You will get:
+
+game1.session: The session file. It stores the name of the game and 
+the current turn.
+
+game1/: A subdirectory conaining all data of the game
+
+emailkeys.game1: An empty file. It will contain keys for sending 
+orders via email.
+
+----------------------------------------------------------------------
+Adding players
+
+You can add players by:
+
+prometheus-en game1.session
+
+You will get a menu:
+
+
+                               P-R-O-M-E-T-H-E-U-S
+
+
+
+
+              >>>     A ... Add new player                     <<<
+                      W ... Generate world maps               
+                      F ... Change square                     
+                      Q ... Quit program                      
+
+
+Wenn adding a player you have to enter the coords where he starts.
+You'll find a number of maps in the game1 directory where you can
+choose good starting positions. Choosing starting positions must
+always be done manually.
+
+After choosing coords, enter the remaining paramters:
+
+    Player  Attributes  Nr. 1            Empire Attributes
+
+    Name:____________________              Abbreviation: EMA
+ Surname:_______________                Name of  Empire:________________________
+  Street:_________________________      Title of leader:________________________
+    City:_________________________       Name of leader:________________________
+   Phone:____________________           Name of capital:________________________
+ Account:________
+   email:____________________________________________________________________
+
+
+          Printout                             Starters
+
+    HTML-Printout: no__            1. Development:Wheel_______________
+ Path symbol (%p): _______________ 2. Development:Wheel_______________
+      Packer (%z): _______________ 3. Development:Wheel_______________
+
+ CTRL-E: Finish editing           Modify values with cursor keys <- and ->
+
+
+In HTML-Printout you probably want to select "yes". Otherwise only a PostScript-
+Printout is created.
+
+
+After adding one or more players you menu looks like this:
+
+
+
+                               P-R-O-M-E-T-H-E-U-S
+
+
+
+
+              >>>     A ... Add new player                     <<<
+                      C ... Change player attributes          
+                      R ... Remove player                     
+                      T ... Table of players                  
+                      S ... Start setup turn                  
+                      W ... Generate world maps               
+                      F ... Change square                     
+                      Q ... Quit program                      
+
+
+             Choose with cursor keys/enter or by typing the letters
+
+
+----modified--------------------------------------------------------------------
+                      Game "game1" in turn 1 with 2 players
+                  Messages for all players in game1/privat/001
+                    0 commands of 0 players have been entered
+
+
+Now you can start the first turn by pressing S. Printouts will be
+created. You'll find them in the game directory.
+
+
+----------------------------------------------------------------------
+
+Starting a turn
+
+When starting the next turn just invoke prometheus-en game1.session.
+You can enter player's order here. You also can put emails containing
+players orders into the directory emailin. Prometheus will scan them
+for correct oders.
+
+The email must contain something like this:
+
+Customer:10
+Emailkey:887754981199-926141768481-379
+Game:demo
+Gametype:PROMETHEUS
+Turn:4
+Position:EMJ
+Address:promo@arlg.co.uk
+Commands:
+
+STARTOFCOMMANDS
+
+EMJ
+CPJ BU1:SL BU2:MP BU3:MP BU4:CG BU5:MP BU6:MP BU7:MP BU8:MP BU9:MP BU10:MP
+CPJ1 BU1:SL BU2:MP BU3:MP BU4:CG BU5:MP BU6:MP BU7:MP BU8:MP BU9:MP BU10:MP
+EMJ1 MVS FC
+EMJ2 DF CS
+EMJ3 MVN DF CS
+EMJ4 MVS,S MVNW EXW
+EMJ5 EXW
+EMJ6 MVS,S,S EXE
+
+ENDOFCOMMANDS
+
+
+The Emailkey is unique for each player an for each turn. You'll find it in the
+file emailkeys.game1. The HTML-printout contains a web form creating an email
+with the upper syntax and has all parameters including email key already encoded,
+so the player has just to enter the orders and push the send button.
+
+----------------------------------------------------------------------
+
+Sorry, for not having a better manual for you. It's just I have so
+few TIME! Anyway: please drop me a mail if you are interested in
+the game and need help.
+
+Have fun with the game!
+
+
+Mathias Kettner
+prometheus@mathias-kettner.de

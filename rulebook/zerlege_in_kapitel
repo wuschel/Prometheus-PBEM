@@ -1,0 +1,41 @@
+#!/bin/sh
+# expandiere erweiterte Tags.
+# $1 = Sprache: de oder en
+
+lang=${1:-en}
+OUTPUTDIR=$lang
+
+cat | csplit - -s '/<p><a name="1-.*>/' '{*}'
+rm xx00
+
+for i in xx*
+do
+  TEMPFILE=$$.tmp
+  mv $i $TEMPFILE
+  BACK=$FILENAME
+  FILENAME=$(head -1 $TEMPFILE | sed 's/^.*"1-\([^"]*\)">/kp\1/' | sed 's/ //g' | head -c 8 | sed 's/\(.*\)/\1.htm/')
+  NAME=$(head -2 $TEMPFILE | tail -1 | sed 's/.*<b>\(.*\)<\/b>.*/\1/')
+  echo -n "Converting chapter $FILENAME..."
+  echo "<html><head><title>$NAME</title></head>" '<body bgcolor="#c0c0c0">' > $FILENAME
+  BAR=$$.bar
+  rm -f $BAR
+  echo $BACK | grep htm >/dev/null && echo "<a href=\"$BACK\"><img src=\"zurueck.png\" border=\"0\"></a> " >> $BAR
+  echo $BACK | grep -v htm >/dev/null && echo "<img src=\"nzurueck.png\" border=\"0\">" >> $BAR
+  if ls xx?? >/dev/null 2>/dev/null ; then
+    FORWARDFILE=`ls xx?? | head -1`
+    FORWARD=`head -1 $FORWARDFILE | sed 's/^.*"1-\([^"]*\)">/kp\1/' | sed 's/ //g' | head -c 8 | sed 's/\(.*\)/\1.htm/'`
+    echo "<a href=\"$FORWARD\"><img src=\"weiter.png\" border=\"0\"></a> " >> $BAR
+  else
+    echo "<img src=\"nweiter.png\" border=\"0\">" >> $BAR
+  fi
+  echo "<a href=\"index.htm\"><img src=\"inhalt.png\" border=\"0\"></a>" >> $BAR
+  cat $BAR              >> $FILENAME
+  echo "<hr>"           >> $FILENAME
+  cat $TEMPFILE         >> $FILENAME
+  echo "<hr>"           >> $FILENAME
+  cat $BAR              >> $FILENAME
+  echo "</body></html>" >> $FILENAME
+  rm $BAR
+  rm $TEMPFILE
+  echo OK
+done

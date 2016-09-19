@@ -1,0 +1,25 @@
+TARGETDIR=/usr/share/prometheus/html/rulebook
+
+kpEpilog.htm XX.htm: anleitung.html index.htm
+	$(MAKE) LANGUAGE=$(LANGUAGE) --no-print-directory compile
+
+%.html: %.mhtml
+	../mhtml2html $< > $@
+
+index.htm: ../index-$(LANGUAGE).mhtml
+	../mhtml2html $< > $@
+
+compile: anleitung.html
+	cat $< | ../zerlege_in_kapitel $(LANGUAGE)
+	../zerlege_in_befehle $(LANGUAGE)
+
+distdir:
+	cp -p Makefile $(DISTDIR)
+
+clean: 
+	rm -f anleitung.mhtml
+	rm -f anleitung.html
+
+mrproper: clean
+	rm -f *~ *.htm
+	rm -rf *.bar *.tmp

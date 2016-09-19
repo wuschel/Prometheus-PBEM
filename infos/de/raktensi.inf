@@ -1,0 +1,12 @@
+Raketensilo#
+Dies ist eine Einrichtung, welche in der Landschaft und nicht in einer Stadt
+gebaut wird. Man mu~s eine Atomrakete auf das Feld mit dem Silo bewegen
+und ihr dort den Befehl "EI" geben, um das Silo mit der Rakete zu laden. Die
+Rakete verschwindet dann und kostet auch keinen Unterhalt mehr. Mit dem
+Befehl "FE" an das Raketensilo wird die Rakete aus dem Silo abgeschossen.
+Dazu gibt man nach FE einfach die Koordinaten des Ziels an, also z.B.
+FE17,-34. Eine scharf gemachte Rakete kann nicht wieder aus einen Silo
+herausgeholt werden, und ein Silo kann auch nur eine Rakete aufnehmen. Warum
+ein Raketensilo in der Landschaft stehen mu~s, ist eigentlich auch logisch.
+Oder was w~urdest du sagen, wenn neben deiner Wohnung pl~otzlich ein
+Raketenstart erfolgt?

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Wandelt Mathias .mhtml Dateien mithilfe von meta-tags um in .html Dateien.
+
+for i in $* 
+do
+  SEDFILE=/tmp/$$.mhtml2html
+  rm -f $SEDFILE
+
+  LANGUAGE=` egrep '<mhtml[^>]*>' $i | sed 's/<mhtml[^>]*language="\([^"]*\)"[^>]*>/\1/g' | strings -n 1 `
+  TITLE=`    egrep '<mhtml[^>]*>' $i | sed 's/<mhtml[^>]*title="\([^"]*\)"[^>]*>/\1/g'`
+  NAVIGATION=`grep '<navigation>' $i | sed 's/.*<navigation>\(.*\)<\/navigation>.*/\1/g'`
+
+  if [ "$LANGUAGE" == "de" ] 
+  then 
+    ERSTELLT="Erstellt von"
+    UPDATE="Letzte Änderung am"
+    DATE=`date "+%-d. %-m. %Y um %H:%M"`
+  elif [ "$LANGUAGE" == "en" ]
+  then
+    ERSTELLT="Created by"
+    UPDATE="last updated"
+    DATE=`date "+%Y-%m-%d at %l:%M %p"`
+  fi
+  echo "s/<impressum>/<hr><i>$ERSTELLT <a href="mailto:kettner@mbox.vol.cz">Mathias Kettner<\/a>, $UPDATE $DATE <\/i>/g" >> $SEDFILE
+  echo "s/<mhtml[^>]*>/<html><head><title>$TITLE<\/title><\/head><body bgcolor=\"#c0c0c0\">/g" >> $SEDFILE
+  echo "s/<date>/$DATE/g" >> $SEDFILE
+
+  if egrep -q '^[[:space:]]*<toc>[[:space:]]*$' $i 
+  then 
+    export LANGUAGE
+    TEMPFILE=/tmp/$$
+    csplit -s $i '/<toc>/' '//'
+    ( cat xx00 ; mhtmltoc $i ; cat xx02 ) > $TEMPFILE
+    sed -f $SEDFILE -f $0.sed $TEMPFILE
+    rm -f xx??
+  else
+  sed -f $SEDFILE -f $0.sed $i
+  fi
+
+  if [ "$NAVIGATION" != "" ]
+  then
+    echo "<navigation bottom>$NAVIGATION</navigation bottom>" | sed -f $0.sed
+  fi
+  echo "</body></html>"
+  rm $SEDFILE
+done

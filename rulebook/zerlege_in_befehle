@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# $1 = Sprache, de oder en
+
+lang="${1:-en}"
+
+if [ "$lang" == "de" ] ; then BEFEHL="kpBefehl.htm" ; else BEFEHL="kpComman.htm" ; fi
+
+BEFEHL=`ls $BEFEHL`
+csplit -s $BEFEHL '/<!befehl>/' '{*}'
+# Das erste Hackstueck enthaelt den Kopf vom Kapitel Befehl, den eigentlichen Inhalt
+mv xx00 $BEFEHL
+# Das letzte Hackstueck ist kein Befehl mehr, sondern enthaelt nur noch die untere
+# Navigationsleiste und das korrekte HTML-Ende
+BEFEHLTAIL=`ls -r xx?? | head -1`
+cat $BEFEHLTAIL >> $BEFEHL
+rm $BEFEHLTAIL
+
+# Die restlichen Hackstuecke enthalten die Befehlsbeschreibungen.
+for i in xx?? ;
+do
+  TEMPFILE=/tmp/$$.tmp ;
+  mv $i $TEMPFILE ;
+  BACK=$NAME ;
+  NAME=`head -1 $TEMPFILE | sed 's/.*"\([A-Z_]*\)".*/\1\.htm/'` ;
+  echo -n "$NAME ..." ;
+  rm -f $NAME;
+  
+  # Titel ermitteln. Der ist codiert mit dem Tag <!"....."!>
+  TITEL=`grep '<!"' $TEMPFILE | sed 's/.*<!"\([^"]*\)"!>.*/\1/g'`
+
+  echo "<html><head><title>$TITEL</title></head>" '<body bgcolor="#c0c0c0">' > $NAME ;
+  BAR=/tmp/$$.bar ;
+  rm -f $BAR ;
+  echo $BACK | grep htm >/dev/null && echo "<a href=\"$BACK\"><img src=\"zurueck.png\" border=\"0\"></a> " >> $BAR ;
+  echo $BACK | grep -v htm >/dev/null && echo "<img src=\"nzurueck.png\" border=\"0\">" >> $BAR ;
+  if ls xx?? 2> /dev/null >/dev/null ; then
+    FORWARDFILE=`ls xx?? | head -1` ;
+    FORWARD=`head -1 $FORWARDFILE | sed 's/.*"\([A-Z_]*\)".*/\1\.htm/'` ;
+    echo "<a href=\"$FORWARD\"><img src=\"weiter.png\" border=\"0\"></a> " >> $BAR ;
+  else
+    echo "<img src=\"nweiter.png\" border=\"0\">" >> $BAR ;
+  fi
+  echo "<a href=\"$BEFEHL\"><img src=\"hoch.png\" border=\"0\"></a>" >> $BAR;
+  echo "<a href=\"index.htm\"><img src=\"inhalt.png\" border=\"0\"></a>" >> $BAR;
+  cat $BAR >> $NAME;
+  echo "<hr>" >> $NAME;
+  cat $TEMPFILE >> $NAME ;
+  rm $TEMPFILE ;
+  echo "<hr>" >> $NAME;
+  cat $BAR >> $NAME;
+  rm $BAR;
+  echo "</body></html>" >> $NAME;
+  echo OK
+done
